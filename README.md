@@ -1,54 +1,57 @@
-# 📬 Gmail Spam Auto-Cleaner with Telegram Alert – using n8n
+# 📬 Gmail Spam Auto-Cleaner – Built with n8n
 
-مشروع أوتوميشن بسيط وفعال باستخدام [n8n](https://n8n.io) يهدف إلى:
-
-✅ فلترة الإيميلات المزعجة تلقائيًا  
-✅ حذفها مباشرة من Gmail  
-✅ إمكانية إرسال إشعار على Telegram (اختياري)  
-كل ذلك يتم بدون برمجة – فقط عبر واجهة نودات n8n.
+This project is a simple and effective automation built using [n8n](https://n8n.io).  
+Its purpose is to automatically detect and delete spam or promotional emails from your Gmail inbox based on specific keywords — without writing any code.
 
 ---
 
-## 🛠 المتطلبات
+## 🚀 Features
 
-- حساب Gmail مفعّل OAuth 2.0
-- حساب Telegram Bot (مع Chat ID)
-- n8n (يعمل على سطح المكتب أو سيرفر)
-- اتصال إنترنت مستقر
+- Detects spammy or promotional keywords in incoming emails
+- Automatically deletes those emails
+- Runs fully automated in the background using n8n
 
 ---
 
-## ⚙️ خطوات التنفيذ
+## 🧰 Requirements
+
+- A Gmail account with OAuth credentials set up in n8n
+- n8n (self-hosted, cloud, or desktop app)
+- Internet connection
+
+---
+
+## ⚙️ Workflow Overview
 
 ### 1. Gmail Trigger
-- نود `Gmail`
-- التريجر: **On message received**
-- الغرض: تشغيل الأوتوميشن عند وصول أي إيميل جديد
 
-📷 *أدخل لقطة الشاشة هنا لاحقًا*
+- Node: **Gmail**
+- Trigger type: `On message received`
+- This triggers the workflow every time a new email arrives.
 
 ---
 
-### 2. IF Node – الفلترة
-- نود `IF`
-- النوع: `String`
-- نستخدم `{{$json["snippet"]}}` كـ value1
-- العملية: `contains`
-- الكلمات المفتاحية:
-  - مجانًا
-  - ربح
-  - عرض خاص
-  - خصم
-  - لا تفوت
-  - إشترك الآن
-  - فرصة
+### 2. IF Node – Keyword Filter
+
+- Node: **IF**
+- Checks the `snippet` of the email (summary text)
+- Logic: `{{$json["snippet"]}} contains [keyword]`
+- Keywords used:
+  - مجانًا (Free)
+  - ربح (Win)
+  - عرض خاص (Special offer)
+  - خصم (Discount)
+  - لا تفوت (Don't miss)
+  - إشترك الآن (Subscribe now)
+  - فرصة (Opportunity)
   - limited offer
 
-📷 *أدخل لقطة الشاشة هنا لاحقًا*
+Each condition is added under **OR**, meaning if any one of them is found, the condition passes.
 
 ---
 
-### 3. Gmail Delete Node
-- نود `Gmail`
-- الإجراء: `Delete a message`
-- Message ID: نأخذه من output التريجر:
+### 3. Gmail – Delete Message
+
+- Node: **Gmail**
+- Action: `Delete a message`
+- Message ID:  
