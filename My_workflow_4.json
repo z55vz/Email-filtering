@@ -1,0 +1,156 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "delete",
+        "messageId": "={{$json[\"id\"]}}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        0
+      ],
+      "id": "de104216-21c2-46ce-9482-f707cdb0e8e6",
+      "name": "Gmail",
+      "webhookId": "cb63d696-b54a-4145-9cf0-e9a8d1e9decb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "s3bD6t2762eaDv3D",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "62fbf0ad-3254-4751-b00f-115e9627f436",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "s3bD6t2762eaDv3D",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "683b50c8-3fee-4d34-b489-6908546c8ee4",
+              "leftValue": "={{$json[\"snippet\"]}}",
+              "rightValue": "مجانًا",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "568ac25b-f514-4884-a61c-4b9b37f27152",
+              "leftValue": "={{$json[\"snippet\"]}}",
+              "rightValue": "ربح",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "441531c1-c78a-4e72-b3b2-f4df93cf89f5",
+              "leftValue": "={{$json[\"snippet\"]}}",
+              "rightValue": "عرض خاص",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "6701eec3-9a4b-4c23-b2d8-bd6d485fa322",
+              "leftValue": "={{$json[\"snippet\"]}}",
+              "rightValue": "خصم",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "adde0c3c-b9b4-4846-acac-f25ee0cf126c",
+              "leftValue": "={{$json[\"snippet\"]}}",
+              "rightValue": "إشترك الآن",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "2a168637-506b-4b11-8041-85da11970005",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4cac203c-3508-4532-9755-781242305179",
+  "meta": {
+    "instanceId": "85ac9a3dc81ad4659191250e0ec4d0f535a1e4471d94907c974ed6343144bc72"
+  },
+  "id": "h6eRF4purKc9ZrAg",
+  "tags": []
+}
